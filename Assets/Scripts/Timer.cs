@@ -27,6 +27,7 @@ public class Timer : MonoBehaviour
 		if (timer <= 0)
 		{
 			doTimer = false;
+			GameManager.Instance.EndGame();
 			return;
 		}
 

@@ -32,96 +32,34 @@ public class Selector : MonoBehaviour
 	[Header("Line Info")]
 	[SerializeField] float maxLength = 50;
 
+	[SerializeField] BonusDie bonusPointDie;
+
+	bool canSelect = true;
+
 	public float PercentUsed => line.GetLength() / maxLength;
 
 	void Awake()
 	{
 		cam = Camera.main;
 		line = GetComponent<LineRenderer>();
+		bonusPointDie.Roll();
 	}
 
 	void Update()
 	{
+		if (!canSelect) return;
+
 		if (Input.GetMouseButtonDown(0) && Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInit, Mathf.Infinity, diceLayer))
 		{
-			drawing = true;
-
-			Die selectedDie = hitInit.transform.GetComponent<Die>();
-			sideSelected = selectedDie.Side;
-
-			line.positionCount = 2;
-			line.SetPosition(line.positionCount - 2, selectedDie.transform.position - Vector3.forward * LineOffset);
+			StartDraw(hitInit.transform.GetComponent<Die>());
 		}
 
 		if (Input.GetMouseButtonUp(0) || line.GetLength() > maxLength)
 		{
-			drawing = false;
-
-			line.positionCount = 0;
-
-
-			if (dice.Count > 3)
-			{
-				int diceCount = dice.Count;
-
-				int scoreVal = dice.Count * 100 + (((dice.Count * dice.Count) - dice.Count) * 5);
-
-				Vector3 finalDiePos = dice[dice.Count - 1].transform.position;
-				List<Die> bonusDice = new List<Die>();
-				switch (sideSelected)
-				{
-					case 0:
-						bonusDice = Physics.OverlapBox(finalDiePos, new Vector3(0.8f, 10, 1), Quaternion.identity, diceLayer).Select(d => d.GetComponent<Die>()).ToList();
-						break;
-					case 1:
-						scoreVal = Mathf.FloorToInt(scoreVal * 1.4f);
-						break;
-					case 2:
-						Debug.Log(diceSpawner.Pool.ActiveDice.Count);
-						bonusDice = diceSpawner.Pool.ActiveDice.Where(d => d.Side == sideSelected).ToList();
-						break;
-					case 3:
-						foreach (Die die in dice)
-						{
-							bonusDice.AddRange(Physics.OverlapSphere(die.transform.position, 0.4f, diceLayer).Select(d => d.GetComponent<Die>()));
-						}
-						break;
-					case 4:
-						bonusDice = Physics.OverlapSphere(finalDiePos, 1.25f, diceLayer).Select(d => d.GetComponent<Die>()).ToList();
-						break;
-					case 5:
-						bonusDice = Physics.OverlapBox(finalDiePos, new Vector3(10f, 0.6f, 1), Quaternion.identity, diceLayer).Select(d => d.GetComponent<Die>()).ToList();
-						break;
-					default:
-						break;
-				}
-				bonusDice = bonusDice.Except(dice).ToList();
-
-				// Affect all selected dice
-				foreach (Die die in dice)
-				{
-					die.Remove();
-				}
-
-				if (bonusDice.Count > 0)
-				{
-					foreach (Die die in bonusDice)
-					{
-						die.Remove();
-					}
-					scoreVal += bonusDice.Count * 25;
-				}
-
-				GameManager.Instance.scoreManager.AddScore(scoreVal);
-
-				diceSpawner.Spawn(diceCount + bonusDice.Count);
-			}
-
-			sideSelected = -1;
-			dice.Clear();
+			FinishDraw();
 		}
 
-		if (Input.GetMouseButton(0) && Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out RaycastHit hitReocc, Mathf.Infinity, diceLayer))
+		if (drawing && Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out RaycastHit hitReocc, Mathf.Infinity, diceLayer))
 		{
 			Die selectedDie = hitReocc.transform.GetComponent<Die>();
 			if (selectedDie.Side == sideSelected && !dice.Contains(selectedDie))
@@ -139,4 +77,85 @@ public class Selector : MonoBehaviour
 			line.SetPosition(line.positionCount - 1, point);
 		}
 	}
+
+	void StartDraw(Die selectedDie)
+	{
+		drawing = true;
+
+		sideSelected = selectedDie.Side;
+
+		line.positionCount = 2;
+		line.SetPosition(line.positionCount - 2, selectedDie.transform.position - Vector3.forward * LineOffset);
+	}
+
+	public void FinishDraw()
+	{
+		drawing = false;
+		line.positionCount = 0;
+
+		if (dice.Count > 3)
+		{
+			List<Die> bonusDice = new List<Die>();
+			Vector3 finalDiePos = dice[dice.Count - 1].transform.position;
+
+			int scoreVal = dice.Count * 100 + (((dice.Count * dice.Count) - dice.Count) * 5);
+
+			switch (sideSelected)
+			{
+				case 0: // Raindrop - vertical clear
+					bonusDice = Physics.OverlapBox(finalDiePos, new Vector3(0.8f, 10, 1), Quaternion.identity, diceLayer).Select(d => d.GetComponent<Die>()).ToList();
+					break;
+				case 1: // Coin - bonus points
+					scoreVal = Mathf.FloorToInt(scoreVal * 1.4f);
+					break;
+				case 2: // Pears - pear clear
+					bonusDice = diceSpawner.Pool.ActiveDice.Where(d => d.Side == sideSelected).ToList();
+					break;
+				case 3: // Mini explosions - mini circle clears
+					foreach (Die die in dice)
+					{
+						bonusDice.AddRange(Physics.OverlapSphere(die.transform.position, 0.4f, diceLayer).Select(d => d.GetComponent<Die>()));
+					}
+					break;
+				case 4: // Single Explosion - big circle clear
+					bonusDice = Physics.OverlapSphere(finalDiePos, 1.25f, diceLayer).Select(d => d.GetComponent<Die>()).ToList();
+					break;
+				case 5: // Flower - horizontal clear
+					bonusDice = Physics.OverlapBox(finalDiePos, new Vector3(10f, 0.6f, 1), Quaternion.identity, diceLayer).Select(d => d.GetComponent<Die>()).ToList();
+					break;
+				default:
+					break;
+			}
+
+			// Affect all selected dice
+			foreach (Die die in dice)
+			{
+				die.Remove();
+			}
+
+			bonusDice = bonusDice.Except(dice).ToList();
+			if (bonusDice.Count > 0)
+			{
+				foreach (Die die in bonusDice)
+				{
+					die.Remove();
+				}
+				scoreVal += bonusDice.Count * 25;
+			}
+
+			if (sideSelected == bonusPointDie.Side)
+			{
+				scoreVal *= 2;
+			}
+
+			GameManager.Instance.scoreManager.AddScore(scoreVal);
+			diceSpawner.Spawn(dice.Count + bonusDice.Count);
+			bonusPointDie.Roll();
+		}
+
+		sideSelected = -1;
+		dice.Clear();
+	}
+
+	public void SetSelectable(bool canSelect) => this.canSelect = canSelect;
 }
