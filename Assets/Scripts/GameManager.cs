@@ -23,7 +23,7 @@ public class GameManager : Singleton<GameManager>
 
 	int coinsEarned = 0;
 	float tempCoins = 0;
-	float coinIncreaseSpeed = 0.1f;
+	float coinIncreaseSpeed = 0.3f;
 
 	private void Start()
 	{

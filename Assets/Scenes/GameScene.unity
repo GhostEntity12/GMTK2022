@@ -1616,8 +1616,8 @@ CanvasGroup:
   m_GameObject: {fileID: 1200032673}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &1200032677
 Canvas:
@@ -2007,6 +2007,7 @@ MonoBehaviour:
   scoreInfo: {fileID: 2053626351}
   highScoreText: {fileID: 1705959859}
   newHighScore: {fileID: 8300000, guid: 92f10100dd6f1df4f8dd8362494492d7, type: 3}
+  scoreIncreaseSpeed: 579
 --- !u!4 &1294327824
 Transform:
   m_ObjectHideFlags: 0

@@ -263,7 +263,7 @@ public class Shop : MonoBehaviour
 				}
 				break;
 			case ShopType.Ink:
-				if (save.Unlocked((DiceIcon)iconIndex))
+				if (save.Unlocked((DiceInk)inkIndex))
 				{
 					purchaseText.text = "Equip";
 					purchaseButton.interactable = save.GetInk() != inkIndex;
