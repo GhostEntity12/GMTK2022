@@ -37,10 +37,18 @@ public class Selector : MonoBehaviour
 
 	public float PercentUsed => line.GetLength() / maxLength;
 
+	[SerializeField] AudioClip selectSound;
+	AudioSource audioSource;
+	float scale = Mathf.Pow(2f, 1.0f / 12f);
+
+	PopupPool popups;
+
 	void Awake()
 	{
 		cam = Camera.main;
 		line = GetComponent<LineRenderer>();
+		audioSource = GetComponent<AudioSource>();
+		popups = FindObjectOfType<PopupPool>();
 	}
 
 	void Start()
@@ -71,6 +79,8 @@ public class Selector : MonoBehaviour
 				line.positionCount++;
 				Vector3 diePos = selectedDie.transform.position;
 				line.SetPosition(line.positionCount - 2, diePos - Vector3.forward * LineOffset);
+				audioSource.pitch = Mathf.Pow(scale, dice.Count);
+				audioSource.PlayOneShot(selectSound, 0.6f);
 			}
 		}
 
@@ -96,7 +106,7 @@ public class Selector : MonoBehaviour
 		drawing = false;
 		line.positionCount = 0;
 
-		if (dice.Count > 3)
+		if (dice.Count >= 3)
 		{
 			List<Die> bonusDice = new List<Die>();
 			Vector3 finalDiePos = dice[dice.Count - 1].transform.position;
@@ -131,14 +141,24 @@ public class Selector : MonoBehaviour
 			}
 
 			// Affect all selected dice
+			int i = 0;
 			foreach (Die die in dice)
 			{
+				ScorePopup popup = popups.GetPooledObject() as ScorePopup;
+				popup.transform.position = cam.WorldToScreenPoint(die.transform.position);
+				popup.SetAmount((100 + i * 10) * (sideSelected == bonusPointDie.Side ? 2 : 1));
+				popup.SetLifespan(1);
 				die.Remove();
+				i++;
 			}
 
 			bonusDice = bonusDice.Except(dice).ToList();
 			if (bonusDice.Count > 0)
 			{
+				ScorePopup popup = popups.GetPooledObject() as ScorePopup;
+				popup.transform.position = cam.WorldToScreenPoint(finalDiePos);
+				popup.SetAmount(bonusDice.Count * 25 * (sideSelected == bonusPointDie.Side ? 2 : 1));
+				popup.SetLifespan(1);
 				foreach (Die die in bonusDice)
 				{
 					die.Remove();

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
@@ -18,6 +19,7 @@ public class Shop : MonoBehaviour
 		Blue,
 		Purple,
 		Pink,
+		Bubblegum,
 		Fairy_Floss,
 		Galaxy,
 		Mossy,
@@ -47,6 +49,7 @@ public class Shop : MonoBehaviour
 		{ DiceBase.Blue, Rarity.Common},
 		{ DiceBase.Purple, Rarity.Common},
 		{ DiceBase.Pink, Rarity.Common},
+		{ DiceBase.Bubblegum, Rarity.Uncommon },
 		{ DiceBase.Fairy_Floss, Rarity.Uncommon },
 		{ DiceBase.Galaxy, Rarity.Uncommon },
 		{ DiceBase.Mossy, Rarity.Uncommon },
@@ -144,10 +147,18 @@ public class Shop : MonoBehaviour
 	[SerializeField] Texture[] diceIcons;
 
 
+	[Header("Audio")]
+	[SerializeField] AudioClip purchase;
+	AudioSource audioSource;
+
 	// Start is called before the first frame update
+	void Awake()
+	{
+		audioSource = GetComponent<AudioSource>();
+		save = GetComponent<GameSave>();
+	}
 	void Start()
 	{
-		save = GetComponent<GameSave>();
 		save.Read();
 		coinCount.text = $"<sprite=\"Icons\" name=\"Coin\"> {save.Coins}";
 
@@ -219,25 +230,49 @@ public class Shop : MonoBehaviour
 	{
 		dieInfo.text = shopType switch
 		{
-			ShopType.Base => $"{((DiceBase)baseIndex).ToString().Replace('_', ' ')} - <sprite=\"Icons\" name=\"Coin\" color=#000000> {costs[(int)baseRarities[(DiceBase)baseIndex]]}",
-			ShopType.Icon => $"{((DiceIcon)iconIndex).ToString().Replace('_', ' ')} - <sprite=\"Icons\" name=\"Coin\" color=#000000> {costs[(int)iconRarities[(DiceIcon)iconIndex]]}",
-			ShopType.Ink => $"{((DiceInk)inkIndex).ToString().Replace('_', ' ')} - <sprite=\"Icons\" name=\"Coin\" color=#000000> {costs[(int)inkRarities[(DiceInk)inkIndex]]}",
+			ShopType.Base => $"{((DiceBase)baseIndex).ToString().Replace('_', ' ')}\n<sprite=\"Icons\" name=\"Coin\" color=#000000> {costs[(int)baseRarities[(DiceBase)baseIndex]]}",
+			ShopType.Icon => $"{((DiceIcon)iconIndex).ToString().Replace('_', ' ')}\n<sprite=\"Icons\" name=\"Coin\" color=#000000> {costs[(int)iconRarities[(DiceIcon)iconIndex]]}",
+			ShopType.Ink => $"{((DiceInk)inkIndex).ToString().Replace('_', ' ')}\n<sprite=\"Icons\" name=\"Coin\" color=#000000> {costs[(int)inkRarities[(DiceInk)inkIndex]]}",
 			_ => throw new System.Exception()
 		};
 
 		switch (shopType)
 		{
 			case ShopType.Base:
-				purchaseText.text = save.Unlocked((DiceBase)baseIndex) ? "Equip" : "Purchase";
-				purchaseButton.interactable = save.GetBody() != baseIndex;
+				if (save.Unlocked((DiceBase)baseIndex))
+				{
+					purchaseText.text = "Equip";
+					purchaseButton.interactable = save.GetBody() != baseIndex;
+				}
+				else
+				{
+					purchaseText.text = "Purchase";
+					purchaseButton.interactable = costs[(int)baseRarities[(DiceBase)baseIndex]] < save.Coins;
+				}
 				break;
 			case ShopType.Icon:
-				purchaseText.text = save.Unlocked((DiceIcon)iconIndex) ? "Equip" : "Purchase";
-				purchaseButton.interactable = save.GetIcon() != iconIndex;
+				if (save.Unlocked((DiceIcon)iconIndex))
+				{
+					purchaseText.text = "Equip";
+					purchaseButton.interactable = save.GetIcon() != iconIndex;
+				}
+				else
+				{
+					purchaseText.text = "Purchase";
+					purchaseButton.interactable = costs[(int)iconRarities[(DiceIcon)iconIndex]] < save.Coins;
+				}
 				break;
 			case ShopType.Ink:
-				purchaseText.text = save.Unlocked((DiceInk)inkIndex) ? "Equip" : "Purchase";
-				purchaseButton.interactable = save.GetInk() != inkIndex;
+				if (save.Unlocked((DiceIcon)iconIndex))
+				{
+					purchaseText.text = "Equip";
+					purchaseButton.interactable = save.GetInk() != inkIndex;
+				}
+				else
+				{
+					purchaseText.text = "Purchase";
+					purchaseButton.interactable = costs[(int)inkRarities[(DiceInk)inkIndex]] < save.Coins;
+				}
 				break;
 			default:
 				break;
@@ -265,7 +300,6 @@ public class Shop : MonoBehaviour
 
 	public void PurchaseEquip()
 	{
-		Debug.Log("ButtonClick");
 		switch (shopType)
 		{
 			case ShopType.Base:
@@ -302,6 +336,7 @@ public class Shop : MonoBehaviour
 		if (save.UseCoins(costs[(int)baseRarities[body]]))
 		{
 			save.UnlockBase(body);
+			audioSource.PlayOneShot(purchase);
 		}
 	}
 	void PurchaseIcon(DiceIcon icon)
@@ -310,6 +345,7 @@ public class Shop : MonoBehaviour
 		if (save.UseCoins(costs[(int)iconRarities[icon]]))
 		{
 			save.UnlockIcon(icon);
+			audioSource.PlayOneShot(purchase);
 		}
 	}
 	void PurchaseInk(DiceInk ink)
@@ -317,6 +353,7 @@ public class Shop : MonoBehaviour
 		if (save.UseCoins(costs[(int)inkRarities[ink]]))
 		{
 			save.UnlockInk(ink);
+			audioSource.PlayOneShot(purchase);
 		}
 	}
 
@@ -327,7 +364,7 @@ public class Shop : MonoBehaviour
 	}
 	void EquipIcon(DiceIcon icon)
 	{
-		diceMaterial.SetTexture("_IconTex", diceBases[(int)icon]);
+		diceMaterial.SetTexture("_IconTex", diceIcons[(int)icon]);
 		save.SetIcon(icon);
 	}
 	void EquipInk(DiceInk ink)

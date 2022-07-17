@@ -7,12 +7,12 @@ public class GameSave : MonoBehaviour
 
 	public int Coins => save.coins;
 
-	private SaveData save;
+	private SaveData save = new SaveData();
 	string path;
 	const string Key = "GMTK2022";
 
 	// Start is called before the first frame update
-	void Start()
+	void Awake()
 	{
 		path = Application.persistentDataPath;
 		Read();
@@ -50,6 +50,9 @@ public class GameSave : MonoBehaviour
 	public int GetIcon() => save.icon;
 	public int GetInk() => save.ink;
 
+	public void SetHighScore(int score) => save.highScore = score;
+	public int GetHighScore() => save.highScore;
+
 	[ContextMenu("Save File")]
 	public string Write()
 	{
@@ -69,6 +72,7 @@ public class GameSave : MonoBehaviour
 		}
 		catch (FileNotFoundException)
 		{
+			Write();
 			UnlockBase(Shop.DiceBase.Black);
 			UnlockBase(Shop.DiceBase.White);
 			UnlockIcon(Shop.DiceIcon.Colors);
@@ -107,6 +111,8 @@ public class SaveData
 	public int body;
 	public int icon;
 	public int ink;
+
+	public int highScore;
 }
 
 [Serializable]
