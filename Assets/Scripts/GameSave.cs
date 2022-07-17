@@ -1,12 +1,9 @@
 using System;
+using System.Text;
 using UnityEngine;
 using System.IO;
-using System.Text;
-
 public class GameSave : MonoBehaviour
 {
-	public enum DiceBase { FairyFloss, Galaxy, Blocky, KingsDice, Nightmare, Pandas, Peach, Portal, Prismatic, Rainbow, Ripples, Storm, Count }
-	public enum DiceIcon { Bloody, Blue, Clouds, Gold, Green, Lolly, Pink, Purple, Rainbow, Red, Shell, Yellow, Count }
 
 	public int Coins => save.coins;
 
@@ -17,8 +14,17 @@ public class GameSave : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		path = Application.persistentDataPath.Substring(0, Application.persistentDataPath.LastIndexOf(Application.productName));
+		path = Application.persistentDataPath;
 		Debug.Log(path);
+		try
+		{
+			Read();
+		}
+		catch (FileNotFoundException)
+		{
+			Write();
+			throw;
+		}
 	}
 
 	public void AddCoins(int amount)
@@ -34,8 +40,8 @@ public class GameSave : MonoBehaviour
 		return true;
 	}
 
-	public void UnlockBase(DiceBase unlock) => save.baseUnlocks[(int)unlock] = true;
-	public void UnlockIcon(DiceIcon unlock) => save.iconUnlocks[(int)unlock] = true;
+	public void UnlockBase(Shop.DiceBase unlock) => save.baseUnlocks[(int)unlock] = true;
+	public void UnlockIcon(Shop.DiceIcon unlock) => save.iconUnlocks[(int)unlock] = true;
 	public void UnlockShinyIcons() => save.iconShiny = true;
 
 
@@ -43,9 +49,7 @@ public class GameSave : MonoBehaviour
 	public void Write()
 	{
 		string jsonRaw = JsonUtility.ToJson(save);
-		print(jsonRaw);
-		string encodedData = EncryptDecrypt(jsonRaw);
-		print(encodedData);
+		string encodedData = Convert.ToBase64String(Encoding.UTF8.GetBytes(EncryptDecrypt(jsonRaw)));
 		File.WriteAllText(path + Path.DirectorySeparatorChar + "save.dat", encodedData);
 	}
 
@@ -53,9 +57,7 @@ public class GameSave : MonoBehaviour
 	public void Read()
 	{
 		string encodedData = File.ReadAllText(path + Path.DirectorySeparatorChar + "save.dat");
-		print(encodedData);
-		string jsonRaw = EncryptDecrypt(encodedData);
-		print(jsonRaw);
+		string jsonRaw = EncryptDecrypt(Encoding.UTF8.GetString(Convert.FromBase64String(encodedData)));
 		save = (SaveData)JsonUtility.FromJson(jsonRaw, typeof(SaveData));
 	}
 
@@ -76,7 +78,7 @@ public class GameSave : MonoBehaviour
 public class SaveData
 {
 	public int coins;
-	public bool[] baseUnlocks = new bool[(int)GameSave.DiceBase.Count];
-	public bool[] iconUnlocks = new bool[(int)GameSave.DiceIcon.Count];
+	public bool[] baseUnlocks = new bool[(int)Shop.DiceBase.Count];
+	public bool[] iconUnlocks = new bool[(int)Shop.DiceIcon.Count];
 	public bool iconShiny;
 }
