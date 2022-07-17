@@ -6,11 +6,11 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
 	TextMeshProUGUI scoreText;
-
-	int score;
+	[SerializeField] int scoreIncreaseSpeed = 27;
+	
+	public int Score { get; private set; }
 	int tempScore;
 
-	[SerializeField] int scoreIncreaseSpeed = 27;
 
 	private void Awake()
 	{
@@ -19,23 +19,17 @@ public class ScoreManager : MonoBehaviour
 
 	public void AddScore(int value)
 	{
-		score += value;
+		Score += value;
 	}
 
 	private void Update()
 	{
-		if (tempScore < score)
+		if (tempScore < Score)
 		{
 			tempScore += scoreIncreaseSpeed;
-			tempScore = Mathf.Min(tempScore, score);
+			tempScore = Mathf.Min(tempScore, Score);
 
 			scoreText.text = tempScore.ToString();
 		}
-	}
-
-	[ContextMenu("Add Score")]
-	void Add1500()
-	{
-		AddScore(1500);
 	}
 }

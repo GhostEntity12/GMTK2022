@@ -9,15 +9,8 @@ public class Die : Poolable
 
     static Vector3 CheckSide = Vector3.forward;
 
-    Renderer r;
-    // Start is called before the first frame update
-    void Start()
-    {
-        r = GetComponent<Renderer>();
-    }
-
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         Side = SideToCamera();
         //r.material.color = colors[Side];

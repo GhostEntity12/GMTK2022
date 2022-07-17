@@ -42,45 +42,45 @@ MonoBehaviour:
     m_Unicode: 65534
     m_GlyphIndex: 0
     m_Scale: 1
-    m_Name: Icons_0
-    m_HashCode: 320288823
+    m_Name: MultiExplosion
+    m_HashCode: 814634780
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 1
     m_Scale: 1
-    m_Name: Icons_1
-    m_HashCode: 320288822
+    m_Name: MonoExplosion
+    m_HashCode: -1065731274
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 2
     m_Scale: 1
-    m_Name: Icons_2
-    m_HashCode: 320288821
+    m_Name: Flower
+    m_HashCode: -1436018587
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 3
     m_Scale: 1
-    m_Name: Icons_3
-    m_HashCode: 320288820
+    m_Name: Raindrop
+    m_HashCode: -1768876483
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 4
     m_Scale: 1
-    m_Name: Icons_4
-    m_HashCode: 320288819
+    m_Name: Pears
+    m_HashCode: 93868149
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 5
     m_Scale: 1
-    m_Name: Icons_5
-    m_HashCode: 320288818
+    m_Name: Coin
+    m_HashCode: 2451115
   m_SpriteGlyphTable:
   - m_Index: 0
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 115
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 0
@@ -94,8 +94,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 115
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 128
@@ -109,8 +109,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 115
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 256
@@ -124,8 +124,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 115
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 0
@@ -139,8 +139,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 115
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 128
@@ -154,8 +154,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 115
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 256
