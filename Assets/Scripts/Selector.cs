@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -42,6 +41,10 @@ public class Selector : MonoBehaviour
 	{
 		cam = Camera.main;
 		line = GetComponent<LineRenderer>();
+	}
+
+	void Start()
+	{
 		bonusPointDie.Roll();
 	}
 

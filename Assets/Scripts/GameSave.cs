@@ -1,13 +1,13 @@
 using System;
+using System.IO;
 using System.Text;
 using UnityEngine;
-using System.IO;
 public class GameSave : MonoBehaviour
 {
 
 	public int Coins => save.coins;
 
-	public SaveData save;
+	private SaveData save;
 	string path;
 	const string Key = "GMTK2022";
 
@@ -15,7 +15,6 @@ public class GameSave : MonoBehaviour
 	void Start()
 	{
 		path = Application.persistentDataPath;
-		Debug.Log(path);
 		Read();
 	}
 
@@ -39,9 +38,9 @@ public class GameSave : MonoBehaviour
 	public void UnlockIcon(Shop.DiceIcon unlock) => save.icons.unlocks[(int)unlock] = true;
 	public void UnlockInk(Shop.DiceInk unlock) => save.inks.unlocks[(int)unlock] = true;
 
-	public bool BaseUnlocked(Shop.DiceBase unlock) => save.bases.unlocks[(int)unlock];
-	public bool IconUnlocked(Shop.DiceIcon unlock) => save.icons.unlocks[(int)unlock];
-	public bool InkUnlocked(Shop.DiceInk unlock) => save.inks.unlocks[(int)unlock];
+	public bool Unlocked(Shop.DiceBase unlock) => save.bases.unlocks[(int)unlock];
+	public bool Unlocked(Shop.DiceIcon unlock) => save.icons.unlocks[(int)unlock];
+	public bool Unlocked(Shop.DiceInk unlock) => save.inks.unlocks[(int)unlock];
 
 	public void SetBody(Shop.DiceBase body) => save.body = (int)body;
 	public void SetIcon(Shop.DiceIcon icon) => save.icon = (int)icon;
@@ -70,6 +69,10 @@ public class GameSave : MonoBehaviour
 		}
 		catch (FileNotFoundException)
 		{
+			UnlockBase(Shop.DiceBase.Black);
+			UnlockBase(Shop.DiceBase.White);
+			UnlockIcon(Shop.DiceIcon.Colors);
+			UnlockInk(Shop.DiceInk.Matte);
 			encodedData = Write();
 		}
 		string jsonRaw = EncryptDecrypt(Encoding.UTF8.GetString(Convert.FromBase64String(encodedData)));
@@ -99,7 +102,7 @@ public class SaveData
 
 	public CollectionSaveData bases = new CollectionSaveData((int)Shop.DiceBase.Count);
 	public CollectionSaveData icons = new CollectionSaveData((int)Shop.DiceIcon.Count);
-	public CollectionSaveData inks = new CollectionSaveData((int)Shop.DiceIcon.Count);
+	public CollectionSaveData inks = new CollectionSaveData((int)Shop.DiceInk.Count);
 
 	public int body;
 	public int icon;

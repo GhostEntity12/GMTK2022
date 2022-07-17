@@ -8,11 +8,22 @@ public abstract class Pool : MonoBehaviour
 
 	protected List<Poolable> activeItems = new List<Poolable>();
 
+	[SerializeField] int startingObjectCount;
+
+	void Start()
+	{
+		for (int i = 0; i < startingObjectCount; i++)
+		{
+			CreateNewPooledObject();
+		}
+	}
+
 	public virtual Poolable GetPooledObject()
 	{
 		Poolable newObject;
 		if (itemPool.Count == 0)
 		{
+			Debug.LogWarning($"Ran out of items in the {gameObject.name} pool, instantiating a new instance");
 			newObject = CreateNewPooledObject();
 		}
 		else
@@ -34,7 +45,6 @@ public abstract class Pool : MonoBehaviour
 
 	public virtual Poolable CreateNewPooledObject()
 	{
-		Debug.LogWarning($"Ran out of items in the {gameObject.name} pool, instantiating a new instance");
 		Poolable newObject = Instantiate(sourceObject.gameObject).GetComponent<Poolable>();
 		newObject.sourcePool = this;
 		newObject.gameObject.name = sourceObject.name + " (Pooled)";

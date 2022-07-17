@@ -1,15 +1,117 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
 {
 	public enum ShopType { Base, Icon, Ink }
 	public enum Rarity { Common, Uncommon, Rare, Legendary }
-	public enum DiceBase { Blocky, FairyFloss, Galaxy, Kings_Dice, Nightmare, Pandas, Peach, Portal, Prismatic, Rainbow, Ripples, Storm, Count }
-	public enum DiceIcon { Bloody, Blue, Cheese, Clouds, Gold, Green, Lolly, Pink, Purple, Rainbow, Red, Shell, Yellow, Count }
+
+	public enum DiceBase
+	{
+		Black,
+		White,
+		Red,
+		Yellow,
+		Green,
+		Blue,
+		Purple,
+		Pink,
+		Fairy_Floss,
+		Galaxy,
+		Mossy,
+		Nightmare,
+		Peach,
+		Portal,
+		Prismatic,
+		Ripples,
+		Witchy,
+		Blocky,
+		Cheese,
+		Pandas,
+		Storm,
+		Weather,
+		King_Dice,
+		Rainbow,
+		Stained_Glass,
+		Count
+	}
+	Dictionary<DiceBase, Rarity> baseRarities = new Dictionary<DiceBase, Rarity>
+	{
+		{ DiceBase.Black, Rarity.Common},
+		{ DiceBase.White, Rarity.Common},
+		{ DiceBase.Red, Rarity.Common},
+		{ DiceBase.Yellow, Rarity.Common},
+		{ DiceBase.Green, Rarity.Common},
+		{ DiceBase.Blue, Rarity.Common},
+		{ DiceBase.Purple, Rarity.Common},
+		{ DiceBase.Pink, Rarity.Common},
+		{ DiceBase.Fairy_Floss, Rarity.Uncommon },
+		{ DiceBase.Galaxy, Rarity.Uncommon },
+		{ DiceBase.Mossy, Rarity.Uncommon },
+		{ DiceBase.Nightmare, Rarity.Uncommon },
+		{ DiceBase.Peach, Rarity.Uncommon },
+		{ DiceBase.Portal, Rarity.Uncommon },
+		{ DiceBase.Prismatic, Rarity.Uncommon},
+		{ DiceBase.Ripples, Rarity.Uncommon},
+		{ DiceBase.Witchy, Rarity.Uncommon},
+		{ DiceBase.Blocky, Rarity.Rare },
+		{ DiceBase.Cheese, Rarity.Rare },
+		{ DiceBase.Pandas, Rarity.Rare },
+		{ DiceBase.Storm, Rarity.Rare },
+		{ DiceBase.Weather, Rarity.Rare },
+		{ DiceBase.King_Dice, Rarity.Legendary},
+		{ DiceBase.Rainbow, Rarity.Legendary},
+		{ DiceBase.Stained_Glass, Rarity.Legendary},
+	};
+
+	public enum DiceIcon
+	{
+		Colors,
+		Black,
+		White,
+		Red,
+		Yellow,
+		Green,
+		Blue,
+		Purple,
+		Pink,
+		Bloody,
+		Cheese,
+		Clouds,
+		Lolly,
+		Shell,
+		Gold,
+		Rainbow,
+		Count
+	}
+	Dictionary<DiceIcon, Rarity> iconRarities = new Dictionary<DiceIcon, Rarity>
+	{
+		{ DiceIcon.Colors, Rarity.Common},
+		{ DiceIcon.Black, Rarity.Common},
+		{ DiceIcon.White, Rarity.Common},
+		{ DiceIcon.Red, Rarity.Common},
+		{ DiceIcon.Yellow, Rarity.Common},
+		{ DiceIcon.Green, Rarity.Common},
+		{ DiceIcon.Blue, Rarity.Common},
+		{ DiceIcon.Purple, Rarity.Common},
+		{ DiceIcon.Pink, Rarity.Common},
+		{ DiceIcon.Bloody, Rarity.Uncommon },
+		{ DiceIcon.Cheese, Rarity.Uncommon },
+		{ DiceIcon.Clouds, Rarity.Uncommon },
+		{ DiceIcon.Lolly, Rarity.Uncommon},
+		{ DiceIcon.Shell, Rarity.Uncommon},
+		{ DiceIcon.Gold, Rarity.Rare },
+		{ DiceIcon.Rainbow, Rarity.Legendary},
+	};
+
 	public enum DiceInk { Matte, Metallic, Count }
+	Dictionary<DiceInk, Rarity> inkRarities = new Dictionary<DiceInk, Rarity>
+	{
+		{ DiceInk.Matte, Rarity.Common },
+		{ DiceInk.Metallic, Rarity.Legendary },
+	};
 
 	int dieIndex = 0;
 	int baseIndex = 0;
@@ -26,6 +128,8 @@ public class Shop : MonoBehaviour
 	[SerializeField] int[] costs = new int[] { 50, 100, 250, 500 };
 	[SerializeField] TextMeshProUGUI coinCount;
 	[SerializeField] TextMeshProUGUI dieInfo;
+	[SerializeField] Button purchaseButton;
+	[SerializeField] TextMeshProUGUI purchaseText;
 
 	[Header("Rotation")]
 	[SerializeField] Transform shopDiceTransform;
@@ -39,42 +143,6 @@ public class Shop : MonoBehaviour
 	[SerializeField] Texture[] diceBases;
 	[SerializeField] Texture[] diceIcons;
 
-	Dictionary<DiceBase, Rarity> baseRarities = new Dictionary<DiceBase, Rarity>
-	{
-		{ DiceBase.Blocky, Rarity.Rare },
-		{ DiceBase.FairyFloss, Rarity.Uncommon },
-		{ DiceBase.Galaxy, Rarity.Uncommon },
-		{ DiceBase.Kings_Dice, Rarity.Legendary},
-		{ DiceBase.Nightmare, Rarity.Uncommon },
-		{ DiceBase.Pandas, Rarity.Rare },
-		{ DiceBase.Peach, Rarity.Uncommon },
-		{ DiceBase.Portal, Rarity.Uncommon },
-		{ DiceBase.Prismatic, Rarity.Uncommon},
-		{ DiceBase.Rainbow, Rarity.Legendary},
-		{ DiceBase.Ripples, Rarity.Uncommon},
-		{ DiceBase.Storm, Rarity.Rare },
-	};
-	Dictionary<DiceIcon, Rarity> iconRarities = new Dictionary<DiceIcon, Rarity>
-	{
-		{ DiceIcon.Bloody, Rarity.Uncommon },
-		{ DiceIcon.Blue, Rarity.Common},
-		{ DiceIcon.Cheese, Rarity.Uncommon },
-		{ DiceIcon.Clouds, Rarity.Uncommon },
-		{ DiceIcon.Gold, Rarity.Rare },
-		{ DiceIcon.Green, Rarity.Common},
-		{ DiceIcon.Lolly, Rarity.Uncommon},
-		{ DiceIcon.Pink, Rarity.Common},
-		{ DiceIcon.Purple, Rarity.Common},
-		{ DiceIcon.Rainbow, Rarity.Legendary},
-		{ DiceIcon.Red, Rarity.Common},
-		{ DiceIcon.Shell, Rarity.Uncommon},
-		{ DiceIcon.Yellow, Rarity.Common},
-	};
-	Dictionary<DiceInk, Rarity> inkRarities = new Dictionary<DiceInk, Rarity>
-	{
-		{ DiceInk.Matte, Rarity.Common },
-		{ DiceInk.Metallic, Rarity.Legendary },
-	};
 
 	// Start is called before the first frame update
 	void Start()
@@ -147,13 +215,34 @@ public class Shop : MonoBehaviour
 		SetInfoString();
 	}
 
-	void SetInfoString() => dieInfo.text = shopType switch
+	void SetInfoString()
 	{
-		ShopType.Base => $"{((DiceBase)baseIndex).ToString().Replace('_', ' ')} - <sprite=\"Icons\" name=\"Coin\" color=#000000> {costs[(int)baseRarities[(DiceBase)baseIndex]]}",
-		ShopType.Icon => $"{((DiceIcon)iconIndex).ToString().Replace('_', ' ')} - <sprite=\"Icons\" name=\"Coin\" color=#000000> {costs[(int)iconRarities[(DiceIcon)iconIndex]]}",
-		ShopType.Ink => $"{((DiceInk)inkIndex).ToString().Replace('_', ' ')} - <sprite=\"Icons\" name=\"Coin\" color=#000000> {costs[(int)inkRarities[(DiceInk)inkIndex]]}",
-		_ => throw new System.Exception()
-	};
+		dieInfo.text = shopType switch
+		{
+			ShopType.Base => $"{((DiceBase)baseIndex).ToString().Replace('_', ' ')} - <sprite=\"Icons\" name=\"Coin\" color=#000000> {costs[(int)baseRarities[(DiceBase)baseIndex]]}",
+			ShopType.Icon => $"{((DiceIcon)iconIndex).ToString().Replace('_', ' ')} - <sprite=\"Icons\" name=\"Coin\" color=#000000> {costs[(int)iconRarities[(DiceIcon)iconIndex]]}",
+			ShopType.Ink => $"{((DiceInk)inkIndex).ToString().Replace('_', ' ')} - <sprite=\"Icons\" name=\"Coin\" color=#000000> {costs[(int)inkRarities[(DiceInk)inkIndex]]}",
+			_ => throw new System.Exception()
+		};
+
+		switch (shopType)
+		{
+			case ShopType.Base:
+				purchaseText.text = save.Unlocked((DiceBase)baseIndex) ? "Equip" : "Purchase";
+				purchaseButton.interactable = save.GetBody() != baseIndex;
+				break;
+			case ShopType.Icon:
+				purchaseText.text = save.Unlocked((DiceIcon)iconIndex) ? "Equip" : "Purchase";
+				purchaseButton.interactable = save.GetIcon() != iconIndex;
+				break;
+			case ShopType.Ink:
+				purchaseText.text = save.Unlocked((DiceInk)inkIndex) ? "Equip" : "Purchase";
+				purchaseButton.interactable = save.GetInk() != inkIndex;
+				break;
+			default:
+				break;
+		}
+	}
 
 	void SetDieBase(int dieIndex, int baseIndex)
 	{
@@ -176,25 +265,26 @@ public class Shop : MonoBehaviour
 
 	public void PurchaseEquip()
 	{
+		Debug.Log("ButtonClick");
 		switch (shopType)
 		{
 			case ShopType.Base:
 				DiceBase body = (DiceBase)baseIndex;
-				if (save.BaseUnlocked(body))
+				if (save.Unlocked(body))
 					EquipBody(body);
 				else
 					PurchaseBody(body);
 				break;
 			case ShopType.Icon:
 				DiceIcon icon = (DiceIcon)iconIndex;
-				if (save.IconUnlocked(icon))
+				if (save.Unlocked(icon))
 					EquipIcon(icon);
 				else
 					PurchaseIcon(icon);
 				break;
 			case ShopType.Ink:
 				DiceInk ink = (DiceInk)inkIndex;
-				if (save.InkUnlocked(ink))
+				if (save.Unlocked(ink))
 					EquipInk(ink);
 				else
 					PurchaseInk(ink);
@@ -204,6 +294,7 @@ public class Shop : MonoBehaviour
 		}
 		coinCount.text = $"<sprite=\"Icons\" name=\"Coin\"> {save.Coins}";
 		save.Write();
+		SetInfoString();
 	}
 
 	void PurchaseBody(DiceBase body)
@@ -249,6 +340,9 @@ public class Shop : MonoBehaviour
 	void SetShopType(ShopType type)
 	{
 		shopType = type;
+		baseIndex = 0;
+		iconIndex = 0;
+		inkIndex = 0;
 		for (int i = -2; i < 3; i++)
 		{
 			switch (shopType)
