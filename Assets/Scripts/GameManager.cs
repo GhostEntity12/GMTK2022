@@ -31,7 +31,6 @@ public class GameManager : Singleton<GameManager>
 		scoreInfo.text = $"<b><line-height=0%><align=left>Score:</b>\n<line-height=100%><align=right>{scoreManager.Score}\n<b><line-height=0%><align=left>Coins Earned:</b>\n<line-height=100%><align=right>{coins}";
 
 		Save.AddCoins(coins);
-		Save.Write();
 	}
 
 	void PlayAgain() => SceneManager.LoadScene(2);

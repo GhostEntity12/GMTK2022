@@ -7,7 +7,7 @@ public class GameSave : MonoBehaviour
 
 	public int Coins => save.coins;
 
-	private SaveData save;
+	public SaveData save;
 	string path;
 	const string Key = "GMTK2022";
 
@@ -16,20 +16,13 @@ public class GameSave : MonoBehaviour
 	{
 		path = Application.persistentDataPath;
 		Debug.Log(path);
-		try
-		{
-			Read();
-		}
-		catch (FileNotFoundException)
-		{
-			Write();
-			throw;
-		}
+		Read();
 	}
 
 	public void AddCoins(int amount)
 	{
 		save.coins += amount;
+		Write();
 	}
 
 	public bool UseCoins(int amount)
@@ -37,26 +30,48 @@ public class GameSave : MonoBehaviour
 		if (save.coins <= amount) return false;
 
 		save.coins -= amount;
+		Write();
+
 		return true;
 	}
 
-	public void UnlockBase(Shop.DiceBase unlock) => save.baseUnlocks[(int)unlock] = true;
-	public void UnlockIcon(Shop.DiceIcon unlock) => save.iconUnlocks[(int)unlock] = true;
-	public void UnlockShinyIcons() => save.iconShiny = true;
+	public void UnlockBase(Shop.DiceBase unlock) => save.bases.unlocks[(int)unlock] = true;
+	public void UnlockIcon(Shop.DiceIcon unlock) => save.icons.unlocks[(int)unlock] = true;
+	public void UnlockInk(Shop.DiceInk unlock) => save.inks.unlocks[(int)unlock] = true;
 
+	public bool BaseUnlocked(Shop.DiceBase unlock) => save.bases.unlocks[(int)unlock];
+	public bool IconUnlocked(Shop.DiceIcon unlock) => save.icons.unlocks[(int)unlock];
+	public bool InkUnlocked(Shop.DiceInk unlock) => save.inks.unlocks[(int)unlock];
+
+	public void SetBody(Shop.DiceBase body) => save.body = (int)body;
+	public void SetIcon(Shop.DiceIcon icon) => save.icon = (int)icon;
+	public void SetInk(Shop.DiceInk ink) => save.ink = (int)ink;
+
+	public int GetBody() => save.body;
+	public int GetIcon() => save.icon;
+	public int GetInk() => save.ink;
 
 	[ContextMenu("Save File")]
-	public void Write()
+	public string Write()
 	{
 		string jsonRaw = JsonUtility.ToJson(save);
 		string encodedData = Convert.ToBase64String(Encoding.UTF8.GetBytes(EncryptDecrypt(jsonRaw)));
 		File.WriteAllText(path + Path.DirectorySeparatorChar + "save.dat", encodedData);
+		return encodedData;
 	}
 
 	[ContextMenu("Read File")]
 	public void Read()
 	{
-		string encodedData = File.ReadAllText(path + Path.DirectorySeparatorChar + "save.dat");
+		string encodedData;
+		try
+		{
+			encodedData = File.ReadAllText(path + Path.DirectorySeparatorChar + "save.dat");
+		}
+		catch (FileNotFoundException)
+		{
+			encodedData = Write();
+		}
 		string jsonRaw = EncryptDecrypt(Encoding.UTF8.GetString(Convert.FromBase64String(encodedData)));
 		save = (SaveData)JsonUtility.FromJson(jsonRaw, typeof(SaveData));
 	}
@@ -72,13 +87,32 @@ public class GameSave : MonoBehaviour
 
 		return sb.ToString();
 	}
+
+	[ContextMenu("Motherlode")]
+	void AddCoins() => AddCoins(1500);
 }
 
 [Serializable]
 public class SaveData
 {
 	public int coins;
-	public bool[] baseUnlocks = new bool[(int)Shop.DiceBase.Count];
-	public bool[] iconUnlocks = new bool[(int)Shop.DiceIcon.Count];
-	public bool iconShiny;
+
+	public CollectionSaveData bases = new CollectionSaveData((int)Shop.DiceBase.Count);
+	public CollectionSaveData icons = new CollectionSaveData((int)Shop.DiceIcon.Count);
+	public CollectionSaveData inks = new CollectionSaveData((int)Shop.DiceIcon.Count);
+
+	public int body;
+	public int icon;
+	public int ink;
+}
+
+[Serializable]
+public class CollectionSaveData
+{
+	public bool[] unlocks;
+
+	public CollectionSaveData(int count)
+	{
+		unlocks = new bool[count];
+	}
 }

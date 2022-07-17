@@ -146,10 +146,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 56679793}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 9.310004, y: 0, z: -31.75}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1864810315}
+  - {fileID: 994157161}
+  - {fileID: 1544192529}
   - {fileID: 1438442719}
   - {fileID: 1977015091}
   - {fileID: 996937227}
@@ -159,41 +162,8 @@ Transform:
   - {fileID: 400593986}
   - {fileID: 70901306}
   - {fileID: 471123757}
-  - {fileID: 1864810315}
-  - {fileID: 994157161}
-  - {fileID: 1544192529}
   m_Father: {fileID: 1671700985}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &63938160
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 63938161}
-  m_Layer: 0
-  m_Name: LookTarget
-  m_TagString: Untagged
-  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &63938161
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 63938160}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0000005364418, y: 0, z: -1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2129787511}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &70901305
 GameObject:
@@ -209,7 +179,7 @@ GameObject:
   - component: {fileID: 70901308}
   - component: {fileID: 70901307}
   m_Layer: 6
-  m_Name: ShopDie8
+  m_Name: ShopDie11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -227,7 +197,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56679794}
-  m_RootOrder: 7
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 45}
 --- !u!114 &70901307
 MonoBehaviour:
@@ -580,7 +550,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 193.58, y: 85.5}
+  m_SizeDelta: {x: 200, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &329572083
 MonoBehaviour:
@@ -625,7 +595,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 329572084}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1502811266}
+        m_TargetAssemblyTypeName: Shop, Assembly-CSharp
+        m_MethodName: SetShopType
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &329572084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -874,7 +856,7 @@ GameObject:
   - component: {fileID: 400593988}
   - component: {fileID: 400593987}
   m_Layer: 6
-  m_Name: ShopDie7
+  m_Name: ShopDie10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -892,7 +874,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56679794}
-  m_RootOrder: 6
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 45}
 --- !u!114 &400593987
 MonoBehaviour:
@@ -1106,7 +1088,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dice Modifiers
+  m_text: Dice Ink Material
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1197,7 +1179,7 @@ GameObject:
   - component: {fileID: 471123759}
   - component: {fileID: 471123758}
   m_Layer: 6
-  m_Name: ShopDie9
+  m_Name: ShopDie12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1215,7 +1197,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56679794}
-  m_RootOrder: 8
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 45}
 --- !u!114 &471123758
 MonoBehaviour:
@@ -1332,7 +1314,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 193.58, y: 85.5}
+  m_SizeDelta: {x: 200, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &508207398
 MonoBehaviour:
@@ -1377,7 +1359,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 508207399}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1502811266}
+        m_TargetAssemblyTypeName: Shop, Assembly-CSharp
+        m_MethodName: SetShopType
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &508207399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1469,7 +1463,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1690,7 +1684,7 @@ GameObject:
   - component: {fileID: 641667558}
   - component: {fileID: 641667557}
   m_Layer: 6
-  m_Name: ShopDie4
+  m_Name: ShopDie7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1708,7 +1702,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56679794}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 45}
 --- !u!114 &641667557
 MonoBehaviour:
@@ -2094,7 +2088,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 877993095}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1502811266}
+        m_TargetAssemblyTypeName: Shop, Assembly-CSharp
+        m_MethodName: Purchase
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &877993095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2213,7 +2219,7 @@ GameObject:
   - component: {fileID: 994157163}
   - component: {fileID: 994157162}
   m_Layer: 6
-  m_Name: ShopDie11
+  m_Name: ShopDie2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2231,7 +2237,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56679794}
-  m_RootOrder: 10
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 45}
 --- !u!114 &994157162
 MonoBehaviour:
@@ -2325,7 +2331,7 @@ GameObject:
   - component: {fileID: 996937229}
   - component: {fileID: 996937228}
   m_Layer: 6
-  m_Name: ShopDie3
+  m_Name: ShopDie6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2343,7 +2349,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56679794}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 45}
 --- !u!114 &996937228
 MonoBehaviour:
@@ -2480,7 +2486,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dice Ink
+  m_text: Dice Ink Color
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2837,7 +2843,7 @@ GameObject:
   - component: {fileID: 1438442721}
   - component: {fileID: 1438442720}
   m_Layer: 6
-  m_Name: ShopDie1
+  m_Name: ShopDie4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2855,7 +2861,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56679794}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 45}
 --- !u!114 &1438442720
 MonoBehaviour:
@@ -2945,6 +2951,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1502811267}
   - component: {fileID: 1502811266}
+  - component: {fileID: 1502811268}
   m_Layer: 0
   m_Name: Shop
   m_TagString: Untagged
@@ -2964,12 +2971,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06215984d8758b44abf649561c3fde67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotSpeed: 1
+  diceMaterial: {fileID: 2100000, guid: dd22a61af33a02044a7fd728ba79bee3, type: 2}
   costs: 3200000064000000fa000000f4010000
+  coinCount: {fileID: 809919970}
+  dieInfo: {fileID: 1578055352}
   shopDiceTransform: {fileID: 56679794}
-  shopDiceRotTarget: {fileID: 2129787511}
-  shopDiceLookTarget: {fileID: 63938161}
+  shopDiceRotTarget: {x: 0, y: 0, z: 0, w: 0}
+  rotSpeed: 15
   shopDice:
+  - {fileID: 1864810318}
+  - {fileID: 994157164}
+  - {fileID: 1544192532}
   - {fileID: 1438442722}
   - {fileID: 1977015094}
   - {fileID: 996937230}
@@ -2979,9 +2991,6 @@ MonoBehaviour:
   - {fileID: 400593989}
   - {fileID: 70901309}
   - {fileID: 471123760}
-  - {fileID: 1864810318}
-  - {fileID: 994157164}
-  - {fileID: 1544192532}
   diceBases:
   - {fileID: 2800000, guid: c5d28a9199b67b1499fdf18325fada98, type: 3}
   - {fileID: 2800000, guid: 1083de3d65b85704ea1155f50e55619b, type: 3}
@@ -3023,6 +3032,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1502811268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502811265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08e4cc56813534c448a4b5d57659700b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  save:
+    coins: 0
+    bases:
+      unlocks: 000000000000000000000000
+    icons:
+      unlocks: 000000000000000000000000
+    inks:
+      unlocks: 00000000000000000000000000
+    body: 0
+    icon: 0
+    ink: 0
 --- !u!1 &1522865597
 GameObject:
   m_ObjectHideFlags: 0
@@ -3246,7 +3278,7 @@ GameObject:
   - component: {fileID: 1544192531}
   - component: {fileID: 1544192530}
   m_Layer: 6
-  m_Name: ShopDie12
+  m_Name: ShopDie3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3264,7 +3296,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56679794}
-  m_RootOrder: 11
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 45}
 --- !u!114 &1544192530
 MonoBehaviour:
@@ -3708,7 +3740,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671700984}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 9, y: 0, z: -30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2124228510}
@@ -3819,7 +3851,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 193.58, y: 85.5}
+  m_SizeDelta: {x: 200, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1713279750
 MonoBehaviour:
@@ -3864,7 +3896,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1713279751}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1502811266}
+        m_TargetAssemblyTypeName: Shop, Assembly-CSharp
+        m_MethodName: SetShopType
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1713279751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4051,7 +4095,7 @@ GameObject:
   - component: {fileID: 1864810317}
   - component: {fileID: 1864810316}
   m_Layer: 6
-  m_Name: ShopDie10
+  m_Name: ShopDie1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4069,7 +4113,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56679794}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 45}
 --- !u!114 &1864810316
 MonoBehaviour:
@@ -4163,7 +4207,7 @@ GameObject:
   - component: {fileID: 1977015093}
   - component: {fileID: 1977015092}
   m_Layer: 6
-  m_Name: ShopDie2
+  m_Name: ShopDie5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4181,7 +4225,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56679794}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 45}
 --- !u!114 &1977015092
 MonoBehaviour:
@@ -4275,7 +4319,7 @@ GameObject:
   - component: {fileID: 2057746062}
   - component: {fileID: 2057746061}
   m_Layer: 6
-  m_Name: ShopDie5
+  m_Name: ShopDie8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4293,7 +4337,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56679794}
-  m_RootOrder: 4
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 45}
 --- !u!114 &2057746061
 MonoBehaviour:
@@ -4521,7 +4565,7 @@ GameObject:
   - component: {fileID: 2085547441}
   - component: {fileID: 2085547440}
   m_Layer: 6
-  m_Name: ShopDie6
+  m_Name: ShopDie9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4539,7 +4583,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56679794}
-  m_RootOrder: 5
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 45}
 --- !u!114 &2085547440
 MonoBehaviour:
@@ -4802,8 +4846,8 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 7.8
-  field of view: 41
+  far clip plane: 7
+  field of view: 40
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -4829,7 +4873,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2124228506}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -31.75}
+  m_LocalPosition: {x: -9.310006, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1671700985}
@@ -4845,7 +4889,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2129787511}
   m_Layer: 0
-  m_Name: LookRot
+  m_Name: TargetRot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4858,11 +4902,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2129787510}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 9.310004, y: 0, z: -31.75}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 63938161}
+  m_Children: []
   m_Father: {fileID: 1671700985}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
