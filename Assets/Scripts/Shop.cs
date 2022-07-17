@@ -8,12 +8,18 @@ public class Shop : MonoBehaviour
 	public enum DiceBase { Blocky, FairyFloss, Galaxy, KingsDice, Nightmare, Pandas, Peach, Portal, Prismatic, Rainbow, Ripples, Storm, Count }
 	public enum DiceIcon { Bloody, Blue, Clouds, Gold, Green, Lolly, Pink, Purple, Rainbow, Red, Shell, Yellow, Count }
 
+	int index = 0;
+	float targetRot;
+	[SerializeField] float rotSpeed = 1f;
+
 	[SerializeField] int[] costs = new int[] { 50, 100, 250, 500 };
+
+	[SerializeField] Transform shopDiceTransform;
+	[SerializeField] Transform shopDiceRotTarget;
 	[SerializeField] Renderer[] shopDice;
+
 	[SerializeField] Texture[] diceBases;
 	[SerializeField] Texture[] diceIcons;
-	int index = 0;
-
 	Dictionary<DiceBase, Rarity> baseRarities = new Dictionary<DiceBase, Rarity>
 	{
 		{ DiceBase.Blocky, Rarity.Rare },
@@ -35,19 +41,44 @@ public class Shop : MonoBehaviour
 	{
 		for (int i = -2; i < 3; i++)
 		{
-			Debug.Log("did d");
-
-			int b = i;
-			int d = i;
-			d = (d + shopDice.Length) % shopDice.Length;
-			b = (b + diceBases.Length) % diceBases.Length;
-			shopDice[d].material.SetTexture("_BaseTex", diceBases[b]);
+			SetDieBase(i);
 		}
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
+		shopDiceRotTarget.eulerAngles = new Vector3(0, targetRot, 0);
 
+		shopDiceTransform.rotation = Quaternion.Slerp(shopDiceTransform.rotation, shopDiceRotTarget.rotation, rotSpeed * Time.deltaTime);
+
+		if (shopDiceTransform.rotation == shopDiceRotTarget.rotation && (targetRot == -360 || targetRot == 360))
+		{
+			targetRot = 0;
+			shopDiceTransform.rotation = Quaternion.identity;
+			shopDiceRotTarget.rotation = Quaternion.identity;
+		}
+	}
+
+	public void IncrementIndex()
+	{
+		index = (index + 1 + shopDice.Length) % shopDice.Length;
+		SetDieBase(index + 2);
+		targetRot += 30;
+	}
+	public void DecrementIndex()
+	{
+		index = (index - 1 + shopDice.Length) % shopDice.Length;
+		SetDieBase(index - 2);
+		targetRot -= 30;
+	}
+
+	void SetDieBase(int index)
+	{
+		int b = index;
+		int d = index;
+		d = (d + shopDice.Length) % shopDice.Length;
+		b = (b + diceBases.Length) % diceBases.Length;
+		shopDice[d].material.SetTexture("_BaseTex", diceBases[b]);
 	}
 }
